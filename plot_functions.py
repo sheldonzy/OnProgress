@@ -143,4 +143,22 @@ def plot_top_emoji_bar(top_emoji):
     ax.set_xticks([])
     plt.show()
     
-    
+"""
+
+    Argument: top_emoji_users(top_words_each, 3)
+"""   
+def top_emoji(top):
+    fig, ax = plt.subplots(figsize=(8, 5))
+    y = 9
+    level = 0
+    for level, top_each in enumerate(top.items()):
+        ax.text(9, y - level, bidialg.get_display(top_each[0]), fontsize=20)
+        for x, emoj in enumerate(top_each[1].keys(), 3):
+            ax.text(9 - x, y - level, emoj, fontname='Segoe UI Emoji', fontsize=20)
+
+    ax.axis([0, 10, 0, 10])
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    ax.axis('off')
+    plt.show()
+

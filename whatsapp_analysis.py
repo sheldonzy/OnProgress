@@ -86,6 +86,19 @@ def top_emoji_users(top_words, get_top=None):
             top_emoji_dictionary[name] = dict(Counter(top_emoji_dictionary[name]).most_common(get_top))
         return top_emoji_dictionary
 
+"""
+Count words and
+"""
+def emoji_splitter(text):
+    new_string = ""
+    text = text.lstrip()
+    if text:
+        new_string += text[0] + " "
+    for char in ' '.join(text[1:].split()):
+        new_string += char
+        if char in emoji.UNICODE_EMOJI:
+            new_string = new_string + " " 
+    return list(map(lambda x: x.strip(), new_string.split()))
 
 
 
@@ -128,11 +141,11 @@ history['clear_message'] = history['message'].apply(strip_punctuation)
 
 # Delete User's picture and title changes - fix later?
 history = history[~history.name.isin({'שינית'})]
-
 names_all = history.name.unique()
 
+# counter words and emoji
+history['word_count'] = history.clear_message.apply(lambda x: Counter(emoji_splitter(x)))
 
-history['word_count'] = history.clear_message.apply(word_count)
 count_all_words = word_count_to_dict(history['word_count'])
 history['total_word_count'] = history['word_count'].apply(lambda x: sum(x.values()))
 
@@ -151,7 +164,8 @@ for name, dictionary in dict_name.items():
     top_words_each[name] =  word_count_to_dict(dictionary['word_count'])
     top_words_each[name] = {k: v for k,v in top_words_each[name].items() if k not in stop_words}
 
-if __name__ == '__main__':
+
+if __name__ == '__main__': 
     # messages per month, choose person
     name = "מוסקו"
     plot_functions.messages_per_month_plot(dict_name[name], name)
@@ -160,7 +174,7 @@ if __name__ == '__main__':
     plot_functions.messages_per_month_users_plot(dict_name)
     
     # For a given sentence, calculate the number of times said by user
-    sentence = "משפט כלשהו"
+    sentence ="כל הזין"
     plot_functions.sentence_bar(dict_name, sentence)
     
     #
@@ -178,4 +192,8 @@ if __name__ == '__main__':
     
     # Plot top emoji bar
     plot_functions.plot_top_emoji_bar(top_emoji_all(count_all_words, top=5))
+    
+    # plot top 3 emoji per user
+    plot_functions.top_emoji(top_emoji_users(top_words_each, 3))
+    
     
