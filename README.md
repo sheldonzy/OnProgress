@@ -1,3 +1,3 @@
 # OnProgress
 
-https://user-images.githubusercontent.com/24391970/38385547-d1ad3388-391a-11e8-84dd-14a689567e7d.png
+![figure_1](https://user-images.githubusercontent.com/24391970/38385691-2ea22bb6-391b-11e8-93df-092b02d18ca2.png)
